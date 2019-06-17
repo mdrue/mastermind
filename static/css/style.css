@@ -1,0 +1,14 @@
+.token {
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    display: inline-block;
+}
+
+#selectable-colors {
+    margin-top: 50px;
+}
+
+[data-selected] {
+    background-color: crimson;
+}

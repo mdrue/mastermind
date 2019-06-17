@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mastermind</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/game.js" defer></script>
+</head>
+<body>
+    <div id="container">
+        <div id="game-board">
+
+            {% for row in range(10) %}
+                <div class="board-row" id="row-{{ row }}">
+
+                    {% for token in range(4) %}
+                        <div class="board token" id="token-{{ token }}"></div>
+                    {% endfor %}
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="selectable-colors">
+            {% for row in range(2) %}
+                <div class="selectable-color-row" id="selectable-color-row-{{ row }}">
+                    {% for token in range(4) %}
+                        <div class="player token" id="player-color-choice-{{ token }}"></div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
