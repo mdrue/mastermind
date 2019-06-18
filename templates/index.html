@@ -26,10 +26,16 @@
         </div>
 
         <div id="selectable-colors">
+
             {% for row in range(2) %}
-                <div class="selectable-color-row" id="selectable-color-row-{{ row }}">
+                <div class="selectable-color-row"
+                     id="selectable-color-row-{{ row }}">
+
                     {% for token in range(4) %}
-                        <div class="player token" id="player-color-choice-{{ row }}-{{ token }}"></div>
+                        <div class="player token"
+                             id="player-color-choice-{{ row }}-{{ token }}"
+                             data-color="{{ row }}{{ token }}">
+                        </div>
                     {% endfor %}
                 </div>
             {% endfor %}

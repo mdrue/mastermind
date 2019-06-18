@@ -8,6 +8,8 @@ let selectedColor;
 
 var playerSteps = [];
 
+let generate
+
 board.addEventListener('click', function(event) {
     let target = event.target;
 
