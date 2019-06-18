@@ -13,6 +13,18 @@
     background-color: crimson;
 }
 
-#player-color-choice-3 {
+#player-color-choice-0-0 {
     background-color: lawngreen;
+}
+
+#player-color-choice-1-0 {
+    background-color: aqua;
+}
+
+.player-color-choice-0-0 {
+    background-color: black;
+}
+
+.player-color-choice-1-0 {
+    background-color: blue;
 }

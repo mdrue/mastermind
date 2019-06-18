@@ -11,10 +11,14 @@
         <div id="game-board">
 
             {% for row in range(10) %}
-                <div class="board-row" id="row-{{ row }}">
+                <div class="board-row" id="row-{{ 10 - row }}">
 
-                    {% for token in range(4) %}
-                        <div class="board token" id="token-{{ token }}"></div>
+                    {% for token in range(1, 5) %}
+                        <div class="board token"
+                             id="token-{{ 10 - row }}-{{ token }}"
+                             data-row="{{ 10 - row }}"
+                             data-token="{{ token}}">
+                        </div>
                     {% endfor %}
 
                 </div>
@@ -25,7 +29,7 @@
             {% for row in range(2) %}
                 <div class="selectable-color-row" id="selectable-color-row-{{ row }}">
                     {% for token in range(4) %}
-                        <div class="player token" id="player-color-choice-{{ row }}{{ token }}"></div>
+                        <div class="player token" id="player-color-choice-{{ row }}-{{ token }}"></div>
                     {% endfor %}
                 </div>
             {% endfor %}
