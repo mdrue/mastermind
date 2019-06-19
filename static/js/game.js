@@ -25,6 +25,8 @@ var generateWinnerCombIndex = function() {
     return winnerCombIndex;
 };
 
+let actualRow = 1;
+
 let getWinnerComb = function(playerColorChoices) {
     let winnerCombIndex = generateWinnerCombIndex();
     let winnerComb = [];
@@ -41,7 +43,15 @@ board.addEventListener('click', function(event) {
                         'row': 0,
                         'token': 0};
 
-    if (target.getAttribute('class') === 'board token') {
+    actualRow = Math.floor(playerSteps.length / 4) + 1;
+    let row = document.querySelector(`#row-${actualRow}`);
+    console.log(row);
+    let greenMark = document.createElement('img');
+    greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
+    console.log(greenMark);
+    row.appendChild(greenMark);
+
+    if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
         target.classList.add(selectedColor);
         playerStep['selectedColor'] = selectedColor;
         playerStep['row'] = target.dataset['row'];
@@ -54,7 +64,7 @@ board.addEventListener('click', function(event) {
 selectableColors.addEventListener('click', function(event) {
     let target = event.target;
 
-    if (target.getAttribute('class') === 'player token'){
+    if (target.getAttribute('class') === 'player token') {
         selectedColor = target.getAttribute('id');
     }
 });
