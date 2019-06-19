@@ -93,7 +93,6 @@ let getWinnerComb = function(playerColorChoices) {
 let winnerComb = getWinnerComb(playerColorChoices);
 
 board.addEventListener('click', function(event) {
-    playerSteps = parseSteps();
     let target = event.target;
 
     actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
@@ -116,6 +115,7 @@ board.addEventListener('click', function(event) {
         //here we save this player guess to playerSteps
         playerSteps.push(playerStep);
         localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
+        playerSteps = parseSteps();
     }
 
     if (playerSteps.length % 4 === 0) {
@@ -154,5 +154,6 @@ parse.addEventListener('click',function () {
 
 function parseSteps() {
     playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
+    console.log(playerSteps);
     return playerSteps;
 }
