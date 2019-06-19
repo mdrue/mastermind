@@ -87,6 +87,7 @@ window.addEventListener('load', function () {
 
 reset.addEventListener('click', function () {
     localStorage.clear();
+    location.reload();
 });
 
 parse.addEventListener('click',function () {
