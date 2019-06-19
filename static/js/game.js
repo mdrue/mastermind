@@ -45,10 +45,8 @@ board.addEventListener('click', function(event) {
 
     actualRow = Math.floor(playerSteps.length / 4) + 1;
     let row = document.querySelector(`#row-${actualRow}`);
-    console.log(row);
     let greenMark = document.createElement('img');
     greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
-    console.log(greenMark);
     row.appendChild(greenMark);
 
     if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
@@ -56,7 +54,13 @@ board.addEventListener('click', function(event) {
         playerStep['selectedColor'] = selectedColor;
         playerStep['row'] = target.dataset['row'];
         playerStep['token'] = target.dataset['token'];
-        playerSteps.push(playerStep);
+
+        let playerStepRow = [];
+        playerStepRow.push(playerStep);
+        if (playerStep.length === 4) {
+            playerSteps.push(playerStepRow);
+        }
+        console.log(playerSteps)
     }
     getWinnerComb(playerColorChoices)
 });
