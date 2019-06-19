@@ -45,11 +45,9 @@ board.addEventListener('click', function(event) {
 
     actualRow = Math.floor((playerSteps.length+1) / 4) + 1;
     let row = document.querySelector(`#row-${actualRow}`);
-    console.log(row);
     let greenMark = document.createElement('img');
     greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
-    console.log(greenMark);
-    row.appendChild(greenMark);
+    row.insertAdjacentElement('afterbegin', greenMark);
 
     if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
         target.classList.add(selectedColor);
