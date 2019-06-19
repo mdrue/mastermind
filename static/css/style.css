@@ -1,8 +1,12 @@
 .token {
     width: 30px;
     height: 30px;
-    border: 2px solid black;
+    border: 1px solid black;
     display: inline-block;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    text-align: center;
 }
 
 #selectable-colors {
@@ -27,4 +31,21 @@
 
 .player-color-choice-1-0 {
     background-color: blue;
+}
+
+.left-side {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    font-style: italic;
+    font-size: 20px;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    /* border: 1px solid black; */
+}
+
+#guessed-colors {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid black;
+    width: 200px;
 }
