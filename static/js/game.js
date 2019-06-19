@@ -43,7 +43,7 @@ board.addEventListener('click', function(event) {
                         'row': 0,
                         'token': 0};
 
-    actualRow = Math.floor(playerSteps.length / 4) + 1;
+    actualRow = Math.floor((playerSteps.length+1) / 4) + 1;
     let row = document.querySelector(`#row-${actualRow}`);
     let greenMark = document.createElement('img');
     greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
