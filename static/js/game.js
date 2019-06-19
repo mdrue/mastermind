@@ -4,6 +4,10 @@ const boardRow = document.querySelectorAll('.board-row');
 
 const selectableColors = document.querySelector('#selectable-colors');
 
+const reset = document.getElementById('reset');
+
+const parse = document.getElementById('parse');
+
 let selectedColor;
 
 //this array contains the strings that marks the colors in the HTML and CSS
@@ -129,4 +133,19 @@ selectableColors.addEventListener('click', function(event) {
     }
 });
 
+window.addEventListener('load', function () {
+    if(localStorage.length === 0){
+        const winnerComb = getWinnerComb(playerColorChoices);
+        const winnerCombStr = JSON.stringify(winnerComb);
+        localStorage.setItem('winnerComb', winnerCombStr);
+    }
+});
 
+reset.addEventListener('click', function () {
+    localStorage.clear();
+    location.reload();
+});
+
+parse.addEventListener('click',function () {
+    console.log(JSON.parse(localStorage.getItem('winnerComb')));
+});
