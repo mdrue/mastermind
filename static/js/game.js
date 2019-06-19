@@ -8,6 +8,8 @@ const reset = document.getElementById('reset');
 
 const parse = document.getElementById('parse');
 
+//const winningColorTokens = document.querySelectorAll('.winning.token');
+
 let selectedColor;
 
 //this array contains the strings that marks the colors in the HTML and CSS
@@ -63,6 +65,11 @@ let winningCheck = function(actualRowNum, playerSteps, winnerComb) {
             restPlayerGuesses.pop(restWin[i]);
         }
     }
+    //This line checks whether the result contains four '2', meaning the player
+    //has guessed everything correctly. If so, he won, the result will be 'true'
+    if (result.length === 4 && result.includes(1) === false) {
+        return true
+    }
     return result
 };
 
@@ -92,6 +99,8 @@ let getWinnerComb = function(playerColorChoices) {
 //the player has to guess correctly
 let winnerComb = getWinnerComb(playerColorChoices);
 
+console.log(winnerComb);
+
 board.addEventListener('click', function(event) {
     let target = event.target;
 
@@ -115,14 +124,19 @@ board.addEventListener('click', function(event) {
         //here we save this player guess to playerSteps
         playerSteps.push(playerStep);
     }
+    const winningColorTokens = document.querySelectorAll('.winning.token');
 
     if (playerSteps.length % 4 === 0) {
-
         //result will be an array, containing 1 or 2, meaning the guessed color is right, but
         //not on the right position (1), or both the color and position is correct (2)
         let result = winningCheck(actualRowNum, playerSteps, winnerComb);
+        //if the player has won...
+        if (result === true) {
+            for (i=0; i<winningColorTokens.length; i++) {
+                winningColorTokens[i].classList.add(winnerComb[i]);
+            }
+        }
     }
-
 });
 
 selectableColors.addEventListener('click', function(event) {

@@ -11,7 +11,7 @@
         <div id="guessed-colors">
             <div class="left-side"></div>
             {% for token in range(4) %}
-                <div class="token">?</div>
+                <div class="winning token" id="winning-color-{{ token }}">?</div>
             {% endfor %}
         </div>
         <div id="game-board">
