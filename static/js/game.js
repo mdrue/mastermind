@@ -18,7 +18,7 @@ let playerColorChoices = ["player-color-choice-0-0",
                             "player-color-choice-1-2",
                             "player-color-choice-1-3"];
 
-var playerSteps = [];
+let playerSteps = [];
 
 //this function gets the necessary player guesses from playerSteps according to which row we need
 let getActualRowColors = function(actualRowNum, playerSteps) {
@@ -63,7 +63,7 @@ let winningCheck = function(actualRowNum, playerSteps, winnerComb) {
 };
 
 //this function generates random numbers between 0 and 7
-var generateWinnerCombIndex = function() {
+let generateWinnerCombIndex = function() {
     let winnerCombIndex = [];
     for (i=0; i < 4; i++) {
         winnerCombIndex.push(Math.floor(Math.random() * 8));
@@ -87,6 +87,8 @@ let getWinnerComb = function(playerColorChoices) {
 //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
 //the player has to guess correctly
 let winnerComb = getWinnerComb(playerColorChoices);
+
+console.log(winnerComb);
 
 board.addEventListener('click', function(event) {
     let target = event.target;
@@ -117,6 +119,7 @@ board.addEventListener('click', function(event) {
         //result will be an array, containing 1 or 2, meaning the guessed color is right, but
         //not on the right position (1), or both the color and position is correct (2)
         let result = winningCheck(actualRowNum, playerSteps, winnerComb)
+        console.log(result)
     }
 
 });
