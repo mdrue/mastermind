@@ -88,8 +88,6 @@ let getWinnerComb = function(playerColorChoices) {
 //the player has to guess correctly
 let winnerComb = getWinnerComb(playerColorChoices);
 
-console.log(winnerComb);
-
 board.addEventListener('click', function(event) {
     let target = event.target;
 
@@ -118,8 +116,7 @@ board.addEventListener('click', function(event) {
 
         //result will be an array, containing 1 or 2, meaning the guessed color is right, but
         //not on the right position (1), or both the color and position is correct (2)
-        let result = winningCheck(actualRowNum, playerSteps, winnerComb)
-        console.log(result)
+        let result = winningCheck(actualRowNum, playerSteps, winnerComb);
     }
 
 });
