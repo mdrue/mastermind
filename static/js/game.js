@@ -4,6 +4,8 @@ const boardRow = document.querySelectorAll('.board-row');
 
 const selectableColors = document.querySelector('#selectable-colors');
 
+const reset = document.getElementById('reset');
+
 let selectedColor;
 
 let playerColorChoices = ["player-color-choice-0-0",
@@ -73,4 +75,6 @@ selectableColors.addEventListener('click', function(event) {
     }
 });
 
-
+reset.addEventListener('click', function () {
+    localStorage.clear();
+});
