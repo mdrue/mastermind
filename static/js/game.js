@@ -133,6 +133,7 @@ board.addEventListener('click', function(event) {
         //if the player has won...
         if (result === true) {
             for (i=0; i<winningColorTokens.length; i++) {
+                winningColorTokens[i].textContent = '';
                 winningColorTokens[i].classList.add(winnerComb[i]);
             }
         }
