@@ -31,7 +31,7 @@ let actualRowNum = 1;
 // These variables and configurations determine the greenmarker
 let side = document.querySelector('#side');
 let greenMarker = document.createElement('img');
-greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+greenMarker.setAttribute('src', 'static/images/Actions-go-next-icon.png');
 greenMarker.setAttribute('id', 'green-marker');
 side.appendChild(greenMarker);
 greenMarker.style.position = 'absolute';
@@ -127,6 +127,34 @@ let winnerComb = getWinnerComb(playerColorChoices);
 
 console.log(winnerComb);
 
+let show_evaluation_result = function(result, actualRowNum) {
+    let num_of_twos = 0;
+    let num_of_ones = 0;
+
+    for (num of result) {
+        if (num === 2) {
+            num_of_twos += 1;
+        } else if (num === 1) {
+            num_of_ones += 1;
+        }
+    }
+    let rightSide = document.querySelector(`#row-${actualRowNum - 1}`);
+
+    for (i=0; i<num_of_twos; i++) {
+        let goodPosAndColor = document.createElement('img');
+        goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon.png');
+        goodPosAndColor.setAttribute('id', `good-pos-and-color-marker-${i}`);
+        rightSide.appendChild(goodPosAndColor);
+    }
+    for (i=0; i<num_of_ones; i++) {
+        let goodColor = document.createElement('img');
+        goodColor.setAttribute('src','static/images/Yellow-Ball-icon.png');
+        goodColor.setAttribute('id', `good-color-marker-${i}`);
+        rightSide.appendChild(goodColor);
+    }
+
+};
+
 board.addEventListener('click', function(event) {
     let target = event.target;
     let playerStep = {'selectedColor': 0,
@@ -149,7 +177,7 @@ board.addEventListener('click', function(event) {
         playerSteps = parseSteps();
     }
 
-    if (playerSteps.length % 4 == 0) {
+    if (playerSteps.length % 4 === 0) {
         takeGreenMarkerToTheNextRow();
     }
 
@@ -159,6 +187,7 @@ board.addEventListener('click', function(event) {
         //result will be an array, containing 1 or 2, meaning the guessed color is right, but
         //not on the right position (1), or both the color and position is correct (2)
         let result = winningCheck(actualRowNum, playerSteps, winnerComb);
+        show_evaluation_result(result, actualRowNum);
         //if the player has won...
         if (result === true) {
             for (i=0; i<winningColorTokens.length; i++) {
@@ -204,11 +233,10 @@ reset.addEventListener('click', function () {
 });
 
 parse.addEventListener('click',function () {
-    console.log(JSON.parse(localStorage.getItem('winnerComb')));
+    JSON.parse(localStorage.getItem('winnerComb'));
 });
 
 function parseSteps() {
     playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
-    console.log(playerSteps);
     return playerSteps;
 }
