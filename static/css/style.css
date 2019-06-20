@@ -7,6 +7,7 @@
     font-size: 20px;
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
     text-align: center;
+    cursor: pointer;
 }
 
 #selectable-colors {
@@ -105,4 +106,15 @@
 #container {
     display: inline-block;
     float: left;
+}
+
+.player {
+    transition: 1s;
+    -webkit-transition: 1s;
+}
+
+.player:hover {
+    width: 40px;
+    height: 40px;
+    box-shadow: black;
 }
