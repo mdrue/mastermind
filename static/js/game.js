@@ -95,14 +95,14 @@ function main() {
             //if the player has won...
             let winCounter = 0;
 
-            for (num of result) {
+            for (let num of result) {
                 if (num === 2) {
                     winCounter += 1;
                 }
             }
 
             if (winCounter === 4) {
-                for (i = 0; i < winningColorTokens.length; i++) {
+                for (let i = 0; i < winningColorTokens.length; i++) {
                     winningColorTokens[i].textContent = '';
                     winningColorTokens[i].classList.add(winnerComb[i]);
                 }
@@ -191,7 +191,7 @@ function loadWinnerComb(){
 //this function generates random numbers between 0 and 7
 function generateWinnerCombIndex (){
     let winnerCombIndex = [];
-    for (i=0; i < 4; i++) {
+    for (let i=0; i < 4; i++) {
         winnerCombIndex.push(Math.floor(Math.random() * 8));
     }
     return winnerCombIndex;
@@ -214,7 +214,7 @@ function getWinnerComb() {
                                 "player-color-choice-1-3"];
     let winnerCombIndex = generateWinnerCombIndex();
     let winnerComb = [];
-    for (i of winnerCombIndex) {
+    for (let i of winnerCombIndex) {
         winnerComb.push(playerColorChoices[i]);
     }
     return winnerComb;
@@ -264,7 +264,7 @@ function show_evaluation_result (result, actualRowNum) {
     let num_of_twos = 0;
     let num_of_ones = 0;
 
-    for (num of result) {
+    for (let num of result) {
         if (num === 2) {
             num_of_twos += 1;
         } else if (num === 1) {
@@ -273,7 +273,7 @@ function show_evaluation_result (result, actualRowNum) {
     }
     let rightSide = document.querySelector(`#row-${actualRowNum - 1}`);
 
-    for (i=0; i<num_of_twos; i++) {
+    for (let i=0; i<num_of_twos; i++) {
         let goodPosAndColor = document.createElement('img');
         goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon.png');
         goodPosAndColor.setAttribute('id', `good-pos-and-color-marker-${i}`);
