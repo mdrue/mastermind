@@ -24,7 +24,7 @@ function main() {
     // These variables and configurations determine the greenmarker
     let side = document.querySelector('#side');
     let greenMarker = document.createElement('img');
-    greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+    greenMarker.setAttribute('src', 'static/images/Actions-go-next-icon.png');
     greenMarker.setAttribute('id', 'green-marker');
     side.appendChild(greenMarker);
     greenMarker.style.position = 'absolute';
@@ -60,45 +60,45 @@ function main() {
 
     board.addEventListener('click', function(event) {
         let target = event.target;
-
         actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
         localStorage.setItem('actualRowNum', actualRowNum);
-        let row = document.querySelector(`#row-${actualRowNum}`);
-        let greenMark = document.createElement('img');
-        greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
-        row.appendChild(greenMark);
-
         let playerStep = {'selectedColor': 0,
                             'row': 0,
                             'token': 0};
 
-    //here we build the playerStep dictionary, which contains the necessary data about what the player
-    //picked as a color, and what token did he place that color
-    if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
-        target.classList.add(selectedColor);
-        playerStep['selectedColor'] = selectedColor;
-        playerStep['row'] = target.dataset['row'];
-        playerStep['token'] = target.dataset['token'];
-        //here we save this player guess to playerSteps
-        playerSteps.push(playerStep);
-        localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
-        playerSteps = parseSteps();
-    }
-    const winningColorTokens = document.querySelectorAll('.winning.token');
+        //here we build the playerStep dictionary, which contains the necessary data about what the player
+        //picked as a color, and what token did he place that color
+        if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
+            target.classList.add(selectedColor);
+            playerStep['selectedColor'] = selectedColor;
+            playerStep['row'] = target.dataset['row'];
+            playerStep['token'] = target.dataset['token'];
+            //here we save this player guess to playerSteps
+            playerSteps.push(playerStep);
+            localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
+            playerSteps = parseSteps();
+        }
 
-        let result = false;
+        if (playerSteps.length % 4 == 0) {
+            takeGreenMarkerToTheNextRow();
+        }
+
+        const winningColorTokens = document.querySelectorAll('.winning.token');
 
         if (playerSteps.length % 4 === 0) {
             //result will be an array, containing 1 or 2, meaning the guessed color is right, but
             //not on the right position (1), or both the color and position is correct (2)
-            result = winningCheck(actualRowNum, playerSteps, winnerComb);
-            takeGreenMarkerToTheNextRow();
+            let result = winningCheck(actualRowNum, playerSteps, winnerComb);
+
             //if the player has won...
-        }
-        if (result === true) {
-            for (i=0; i<winningColorTokens.length; i++) {
-                winningColorTokens[i].textContent = '';
-                winningColorTokens[i].classList.add(winnerComb[i]);
+            if (result === true) {
+                for (i = 0; i < winningColorTokens.length; i++) {
+                    winningColorTokens[i].textContent = '';
+                    winningColorTokens[i].classList.add(winnerComb[i]);
+                }
+            }
+            else{
+                show_evaluation_result(result, actualRowNum);
             }
         }
     });
@@ -118,6 +118,13 @@ function main() {
                 let token = document.getElementById(tokenId);
                 token.setAttribute('class', `board token ${playerStep['selectedColor']}`);
             }
+            for(let i=0; i<actualRowNum-1; i++){
+                takeGreenMarkerToTheNextRow();
+            }
+            for(let i=1; i<actualRowNum; i++){
+                let result = winningCheck(i,playerSteps,winnerComb);
+                show_evaluation_result(result, i);
+            }
         }
     });
 
@@ -126,24 +133,13 @@ function main() {
         location.reload();
     });
 
-    parse.addEventListener('click',function () {
-        console.log(JSON.parse(localStorage.getItem('winnerComb')));
-    });
+
 
 
 }
 
 function parseSteps() {
-        let playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
-        console.log(playerSteps);
-        return playerSteps;
-}
-
-function loadPlayerSteps(){
-    let playerSteps = [];
-    if (localStorage.getItem('playerSteps')){
-        playerSteps = parseSteps();
-    }
+    let playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
     return playerSteps;
 }
 
@@ -156,6 +152,14 @@ function loadActualRowNum(){
         actualRowNum = 1;
     }
     return actualRowNum;
+}
+
+function loadPlayerSteps(){
+    let playerSteps = [];
+    if (localStorage.getItem('playerSteps')){
+        playerSteps = parseSteps();
+    }
+    return playerSteps;
 }
 
 function loadWinnerComb(){
@@ -244,6 +248,34 @@ function getActualRowColors (actualRowNum, playerSteps) {
 
     return actualRowColors
 }
+
+function show_evaluation_result (result, actualRowNum) {
+    let num_of_twos = 0;
+    let num_of_ones = 0;
+
+    for (num of result) {
+        if (num === 2) {
+            num_of_twos += 1;
+        } else if (num === 1) {
+            num_of_ones += 1;
+        }
+    }
+    let rightSide = document.querySelector(`#row-${actualRowNum - 1}`);
+
+    for (i=0; i<num_of_twos; i++) {
+        let goodPosAndColor = document.createElement('img');
+        goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon.png');
+        goodPosAndColor.setAttribute('id', `good-pos-and-color-marker-${i}`);
+        rightSide.appendChild(goodPosAndColor);
+    }
+    for (i=0; i<num_of_ones; i++) {
+        let goodColor = document.createElement('img');
+        goodColor.setAttribute('src','static/images/Yellow-Ball-icon.png');
+        goodColor.setAttribute('id', `good-color-marker-${i}`);
+        rightSide.appendChild(goodColor);
+    }
+
+};
 
 
 main();
