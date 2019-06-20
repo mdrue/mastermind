@@ -151,10 +151,32 @@ selectableColors.addEventListener('click', function(event) {
 });
 
 window.addEventListener('load', function () {
+    /*
     if(localStorage.length === 0){
         const winnerComb = getWinnerComb(playerColorChoices);
         const winnerCombStr = JSON.stringify(winnerComb);
         localStorage.setItem('winnerComb', winnerCombStr);
+    }
+    else{
+        if(localStorage.length > 1){
+            playerSteps = parseSteps();
+
+        }
+    }*/
+    let storageLen = localStorage.length;
+    switch(storageLen){
+        case 0:
+            const winnerComb = getWinnerComb(playerColorChoices);
+            const winnerCombStr = JSON.stringify(winnerComb);
+            localStorage.setItem('winnerComb', winnerCombStr);
+            break;
+        case 2:
+            playerSteps = parseSteps();
+            for(let playerStep of playerSteps){
+                let tokenId = `token-${playerStep['row']}-${playerStep['token']}`;
+                let token = document.getElementById(tokenId);
+                token.setAttribute('class', playerStep['selectedColor']);
+            }
     }
 });
 
