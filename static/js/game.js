@@ -98,6 +98,8 @@ function main() {
                     winningColorTokens[i].textContent = '';
                     winningColorTokens[i].classList.add(winnerComb[i]);
                 }
+                greenMarker.remove();
+                displayMessage();
             }
             else{
                 show_evaluation_result(result, actualRowNum);
@@ -277,7 +279,13 @@ function show_evaluation_result (result, actualRowNum) {
         rightSide.appendChild(goodColor);
     }
 
-};
+}
+
+
+function displayMessage() {
+    let message = document.querySelector('#message');
+    message.style.visibility = 'visible';
+}
 
 
 main();
