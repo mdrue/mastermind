@@ -84,13 +84,10 @@ function main() {
             playerSteps = parseSteps();
         }
 
-        if (playerSteps.length % 4 == 0) {
-            takeGreenMarkerToTheNextRow();
-        }
-
         const winningColorTokens = document.querySelectorAll('.winning.token');
 
         if (playerSteps.length % 4 === 0) {
+            takeGreenMarkerToTheNextRow();
             //result will be an array, containing 1 or 2, meaning the guessed color is right, but
             //not on the right position (1), or both the color and position is correct (2)
             let result = winningCheck(actualRowNum, playerSteps, winnerComb);
