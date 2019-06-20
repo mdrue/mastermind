@@ -1,15 +1,11 @@
 function main() {
     const board = document.querySelector('#game-board');
 
-    const boardRow = document.querySelectorAll('.board-row');
-
     const selectableColors = document.querySelector('#selectable-colors');
 
     const reset = document.getElementById('reset');
 
     let actualRowNum = loadActualRowNum();
-
-    //const winningColorTokens = document.querySelectorAll('.winning.token');
 
     let selectedColor;
 
@@ -17,11 +13,10 @@ function main() {
 
     let playerSteps = loadPlayerSteps();
 
-    let rowResults = loadResults();
+    //let rowResults = loadResults();
 
     console.log(winnerComb);
 
-    // These variables and configurations determine the greenmarker
     let side = document.querySelector('#side');
     let greenMarker = document.createElement('img');
     greenMarker.setAttribute('src', 'static/images/Actions-go-next-icon.png');
@@ -33,16 +28,6 @@ function main() {
     let greenMarkerPosition = 430;
     let greenMarkerPositionDifference = 37;
 
-
-
-        //this function compares the player guesses and winningComb
-        //it returns a result array, which contains 1 and/or 2, 1 meaning the guessed color is right but the position is not,
-        // and 2 meaning both the color and the position is correct
-
-
-
-
-    // These two functions are responsible for moving the greenmarker
     let moveGreenMarker = function() {
         greenMarkerPosition -= 1;
         greenMarker.style.top = greenMarkerPosition + 'px';
@@ -55,9 +40,6 @@ function main() {
     };
 
 
-    //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
-    //the player has to guess correctly
-
     board.addEventListener('click', function(event) {
         let target = event.target;
         actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
@@ -66,14 +48,11 @@ function main() {
                             'row': 0,
                             'token': 0};
 
-        //here we build the playerStep dictionary, which contains the necessary data about what the player
-        //picked as a color, and what token did he place that color
         if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
             target.classList.add(selectedColor);
             playerStep['selectedColor'] = selectedColor;
             playerStep['row'] = target.dataset['row'];
             playerStep['token'] = target.dataset['token'];
-            //here we save this player guess to playerSteps
             playerSteps.push(playerStep);
             localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
             playerSteps = parseSteps();
@@ -86,13 +65,10 @@ function main() {
         const winningColorTokens = document.querySelectorAll('.winning.token');
 
         if (playerSteps.length % 4 === 0) {
-            //result will be an array, containing 1 or 2, meaning the guessed color is right, but
-            //not on the right position (1), or both the color and position is correct (2)
             let result = winningCheck(actualRowNum, playerSteps, winnerComb);
-            rowResults.push(result);
-            localStorage.setItem('rowResults', JSON.stringify(rowResults));
+            //rowResults.push(result);
+            //localStorage.setItem('rowResults', JSON.stringify(rowResults));
 
-            //if the player has won...
             let winCounter = 0;
 
             for (let num of result) {
@@ -229,6 +205,7 @@ function winningCheck (actualRowNum, playerSteps, winnerComb) {
     let result = [];
     let restWin = [];
     let restPlayerGuesses = [];
+    let commonNum = [];
 
     for (let i=0; i<playerGuesses.length; i++) {
         if (winnerComb[i] === playerGuesses[i]) {
@@ -239,15 +216,18 @@ function winningCheck (actualRowNum, playerSteps, winnerComb) {
             restPlayerGuesses.push(playerGuesses[i]);
         }
     }
-    for (let i=0; i<restWin.length; i++){
-        if(restPlayerGuesses.includes(restWin[i])){
-            result.push(goodColor);
-            restWin.pop(restWin[i]);
-            restPlayerGuesses.pop(restWin[i]);
+
+    for (let i = 0; i<restWin.length; i++) {
+        if (restWin.includes(restPlayerGuesses[i])) {
+            commonNum.push(restPlayerGuesses[i]);
         }
     }
-    //This line checks whether the result contains four '2', meaning the player
-    //has guessed everything correctly. If so, he won, the result will be 'true'
+
+    let length = commonNum.length;
+
+    for (let i=0; i<length; i++) {
+        result.push(goodColor)
+    }
     return result
 }
 
