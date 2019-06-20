@@ -17,6 +17,8 @@ function main() {
 
     let playerSteps = loadPlayerSteps();
 
+    let rowResults = loadResults();
+
     console.log(winnerComb);
     console.log(actualRowNum);
     console.log(playerSteps);
@@ -89,6 +91,8 @@ function main() {
             //result will be an array, containing 1 or 2, meaning the guessed color is right, but
             //not on the right position (1), or both the color and position is correct (2)
             let result = winningCheck(actualRowNum, playerSteps, winnerComb);
+            rowResults.push(result);
+            localStorage.setItem('rowResults', JSON.stringify(rowResults));
 
             //if the player has won...
             if (result === true) {
@@ -141,6 +145,14 @@ function main() {
 function parseSteps() {
     let playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
     return playerSteps;
+}
+
+function loadResults() {
+    let rowResults;
+    if(localStorage.getItem('rowResults')){
+        rowResults = JSON.parse(localStorage['rowResults']);
+    }
+    return rowResults;
 }
 
 function loadActualRowNum(){
