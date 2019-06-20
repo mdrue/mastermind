@@ -15,19 +15,44 @@ function main() {
 
     let winnerComb = loadWinnerComb();
 
-    console.log(winnerComb);
-    console.log(actualRowNum);
-
     let playerSteps = loadPlayerSteps();
 
-    //this function gets the necessary player guesses from playerSteps according to which row we need
+    console.log(winnerComb);
+    console.log(actualRowNum);
+    console.log(playerSteps);
+
+    // These variables and configurations determine the greenmarker
+    let side = document.querySelector('#side');
+    let greenMarker = document.createElement('img');
+    greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+    greenMarker.setAttribute('id', 'green-marker');
+    side.appendChild(greenMarker);
+    greenMarker.style.position = 'absolute';
+    greenMarker.style.right = '0px';
+    greenMarker.style.top = "430px";
+    let greenMarkerPosition = 430;
+    let greenMarkerPositionDifference = 37;
 
 
-    //this function compares the player guesses and winningComb
-    //it returns a result array, which contains 1 and/or 2, 1 meaning the guessed color is right but the position is not,
-    // and 2 meaning both the color and the position is correct
+
+        //this function compares the player guesses and winningComb
+        //it returns a result array, which contains 1 and/or 2, 1 meaning the guessed color is right but the position is not,
+        // and 2 meaning both the color and the position is correct
 
 
+
+
+    // These two functions are responsible for moving the greenmarker
+    let moveGreenMarker = function() {
+        greenMarkerPosition -= 1;
+        greenMarker.style.top = greenMarkerPosition + 'px';
+    };
+
+    let takeGreenMarkerToTheNextRow = function() {
+        for (let i=0; i < greenMarkerPositionDifference; i++) {
+            setTimeout(moveGreenMarker, 100);
+        }
+    };
 
 
     //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
@@ -47,19 +72,19 @@ function main() {
                             'row': 0,
                             'token': 0};
 
-        //here we build the playerStep dictionary, which contains the necessary data about what the player
-        //picked as a color, and what token did he place that color
-        if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
-            target.classList.add(selectedColor);
-            playerStep['selectedColor'] = selectedColor;
-            playerStep['row'] = target.dataset['row'];
-            playerStep['token'] = target.dataset['token'];
-            //here we save this player guess to playerSteps
-            playerSteps.push(playerStep);
-            localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
-            playerSteps = parseSteps();
-        }
-        const winningColorTokens = document.querySelectorAll('.winning.token');
+    //here we build the playerStep dictionary, which contains the necessary data about what the player
+    //picked as a color, and what token did he place that color
+    if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
+        target.classList.add(selectedColor);
+        playerStep['selectedColor'] = selectedColor;
+        playerStep['row'] = target.dataset['row'];
+        playerStep['token'] = target.dataset['token'];
+        //here we save this player guess to playerSteps
+        playerSteps.push(playerStep);
+        localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
+        playerSteps = parseSteps();
+    }
+    const winningColorTokens = document.querySelectorAll('.winning.token');
 
         let result = false;
 
@@ -67,6 +92,7 @@ function main() {
             //result will be an array, containing 1 or 2, meaning the guessed color is right, but
             //not on the right position (1), or both the color and position is correct (2)
             result = winningCheck(actualRowNum, playerSteps, winnerComb);
+            takeGreenMarkerToTheNextRow();
             //if the player has won...
         }
         if (result === true) {

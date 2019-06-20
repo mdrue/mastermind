@@ -7,6 +7,7 @@
     <script src="/static/js/game.js" defer></script>
 </head>
 <body>
+    <div id="side"></div>
     <div id="container">
         <div id="guessed-colors">
             <div class="left-side"></div>
@@ -19,7 +20,7 @@
             {% for row in range(10) %}
                 <div class="board-row" id="row-{{ 10 - row }}">
 
-                    <div class="left-side"><!--<img src="{{ url_for('static', filename='images/Green-Ball-icon.png') }}">-->{{ 10 - row }}</div>
+                    <div class="left-side" id="left-side-{{ 10 - row }}"><!--<img src="{{ url_for('static', filename='images/Green-Ball-icon.png') }}">-->{{ 10 - row }}</div>
                     {% for token in range(1, 5) %}
                         <div class="board token"
                              id="token-{{ 10 - row }}-{{ token }}"
