@@ -44,8 +44,13 @@ function main() {
 
     // These two functions are responsible for moving the greenmarker
     let moveGreenMarker = function() {
-        greenMarkerPosition -= 1;
-        greenMarker.style.top = greenMarkerPosition + 'px';
+        if (actualRowNum <= 10) {
+            greenMarkerPosition -= 1;
+            greenMarker.style.top = greenMarkerPosition + 'px';
+        }
+        else {
+            greenMarker.remove();
+        }
     };
 
     let takeGreenMarkerToTheNextRow = function() {
