@@ -25,7 +25,8 @@ var generateWinnerCombIndex = function() {
     return winnerCombIndex;
 };
 
-let actualRow = 1;
+let actualRowNum = 1;
+let row = document.querySelector(`#row-${actualRowNum}`);
 
 let getWinnerComb = function(playerColorChoices) {
     let winnerCombIndex = generateWinnerCombIndex();
@@ -36,6 +37,42 @@ let getWinnerComb = function(playerColorChoices) {
     return winnerComb;
 };
 
+// function takeNewGreenMarker(actualRowNum, previousRow) {
+//     let rowLeftSide = document.querySelector(`#left-side-${actualRowNum}`);
+//     let previousGreenMarker = document.querySelector('#green-marker');
+//     //let greenMarker = '<img src="static/images/Green-Ball-icon.png" alt="green-marker" id=`img-${actualRowNum}`>';
+//     previousRow.removeChild(previousGreenMarker);
+//     let greenMarker = document.createElement('img');
+//     greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+//     rowLeftSide.insertAdjacentElement('afterbegin', greenMarker);
+// }
+
+
+//let rowLeftSide = document.querySelector(`#left-side-${actualRowNum}`);
+let side = document.querySelector('#side');
+let greenMarker = document.createElement('img');
+greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+greenMarker.setAttribute('id', 'green-marker');
+//rowLeftSide.insertAdjacentElement('afterbegin', greenMarker);
+side.appendChild(greenMarker);
+greenMarker.style.position = 'absolute';
+greenMarker.style.right = '0px';
+greenMarker.style.top = "430px";
+let greenMarkerPosition = 430;
+let greenMarkerPositionDifference = 37;
+
+function moveGreenMarker() {
+    greenMarkerPosition -= 1;
+    greenMarker.style.top = greenMarkerPosition + 'px';
+}
+
+function takeGreenMarkerToTheNextRow() {
+    for (let i=0; i < greenMarkerPositionDifference; i++) {
+        setTimeout(moveGreenMarker, 100);
+    }
+}
+
+
 board.addEventListener('click', function(event) {
     let target = event.target;
 
@@ -43,11 +80,8 @@ board.addEventListener('click', function(event) {
                         'row': 0,
                         'token': 0};
 
-    actualRow = Math.floor((playerSteps.length+1) / 4) + 1;
-    let row = document.querySelector(`#row-${actualRow}`);
-    let greenMark = document.createElement('img');
-    greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
-    row.insertAdjacentElement('afterbegin', greenMark);
+    actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
+    row = document.querySelector(`#row-${actualRowNum}`);
 
     if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
         target.classList.add(selectedColor);
@@ -56,6 +90,12 @@ board.addEventListener('click', function(event) {
         playerStep['token'] = target.dataset['token'];
         playerSteps.push(playerStep);
     }
+
+    if (playerSteps.length % 4 == 0) {
+        takeGreenMarkerToTheNextRow();
+        //greenMarkerPosition = greenMarkerPosition - greenMarkerPositionDifference;
+    }
+
     getWinnerComb(playerColorChoices)
 });
 

@@ -35,7 +35,7 @@
 
 .left-side {
     display: inline-block;
-    width: 50px;
+    width: 20px;
     text-align: right;
     font-style: italic;
     font-size: 20px;
@@ -48,4 +48,17 @@
     padding-bottom: 25px;
     border-bottom: 1px solid black;
     width: 200px;
+}
+
+#side {
+    width: 50px;
+    height: 570px;
+    position: relative;
+    display: inline-block;
+    float: left;
+}
+
+#container {
+    display: inline-block;
+    float: left;
 }
