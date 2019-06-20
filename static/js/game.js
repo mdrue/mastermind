@@ -20,8 +20,6 @@ function main() {
     let rowResults = loadResults();
 
     console.log(winnerComb);
-    console.log(actualRowNum);
-    console.log(playerSteps);
 
     // These variables and configurations determine the greenmarker
     let side = document.querySelector('#side');
@@ -95,7 +93,15 @@ function main() {
             localStorage.setItem('rowResults', JSON.stringify(rowResults));
 
             //if the player has won...
-            if (result === true) {
+            let winCounter = 0;
+
+            for (num of result) {
+                if (num === 2) {
+                    winCounter += 1;
+                }
+            }
+
+            if (winCounter === 4) {
                 for (i = 0; i < winningColorTokens.length; i++) {
                     winningColorTokens[i].textContent = '';
                     winningColorTokens[i].classList.add(winnerComb[i]);
@@ -136,10 +142,6 @@ function main() {
         localStorage.clear();
         location.reload();
     });
-
-
-
-
 }
 
 function parseSteps() {
@@ -246,9 +248,6 @@ function winningCheck (actualRowNum, playerSteps, winnerComb) {
     }
     //This line checks whether the result contains four '2', meaning the player
     //has guessed everything correctly. If so, he won, the result will be 'true'
-    if (result.length === 4 && result.includes(1) === false) {
-        return true
-    }
     return result
 }
 
