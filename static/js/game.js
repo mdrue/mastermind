@@ -105,6 +105,7 @@ board.addEventListener('click', function(event) {
     let target = event.target;
 
     actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
+    localStorage.setItem('actualRowNum', actualRowNum);
     let row = document.querySelector(`#row-${actualRowNum}`);
     let greenMark = document.createElement('img');
     greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
@@ -158,7 +159,8 @@ window.addEventListener('load', function () {
             const winnerCombStr = JSON.stringify(winnerComb);
             localStorage.setItem('winnerComb', winnerCombStr);
             break;
-        case 2:
+        case 3:
+            actualRowNum = localStorage['actualRowNum'];
             playerSteps = parseSteps();
             for(let playerStep of playerSteps){
                 let tokenId = `token-${playerStep['row']}-${playerStep['token']}`;
