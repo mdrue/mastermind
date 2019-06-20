@@ -145,6 +145,8 @@ board.addEventListener('click', function(event) {
         playerStep['token'] = target.dataset['token'];
         //here we save this player guess to playerSteps
         playerSteps.push(playerStep);
+        localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
+        playerSteps = parseSteps();
     }
 
     if (playerSteps.length % 4 == 0) {
@@ -176,10 +178,23 @@ selectableColors.addEventListener('click', function(event) {
 });
 
 window.addEventListener('load', function () {
-    if(localStorage.length === 0){
-        const winnerComb = getWinnerComb(playerColorChoices);
-        const winnerCombStr = JSON.stringify(winnerComb);
-        localStorage.setItem('winnerComb', winnerCombStr);
+    let storageLen = localStorage.length;
+    switch(storageLen){
+        case 0:
+            const winnerComb = getWinnerComb(playerColorChoices);
+            const winnerCombStr = JSON.stringify(winnerComb);
+            localStorage.setItem('winnerComb', winnerCombStr);
+            break;
+        case 2:
+            playerSteps = parseSteps();
+            for(let playerStep of playerSteps){
+                let tokenId = `token-${playerStep['row']}-${playerStep['token']}`;
+                let token = document.getElementById(tokenId);
+                token.setAttribute('class', `board token ${playerStep['selectedColor']}`);
+            }
+            break;
+        default:
+            break;
     }
 });
 
@@ -191,3 +206,9 @@ reset.addEventListener('click', function () {
 parse.addEventListener('click',function () {
     console.log(JSON.parse(localStorage.getItem('winnerComb')));
 });
+
+function parseSteps() {
+    playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
+    console.log(playerSteps);
+    return playerSteps;
+}
