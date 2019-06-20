@@ -1,15 +1,11 @@
 function main() {
     const board = document.querySelector('#game-board');
 
-    const boardRow = document.querySelectorAll('.board-row');
-
     const selectableColors = document.querySelector('#selectable-colors');
 
     const reset = document.getElementById('reset');
 
     let actualRowNum = loadActualRowNum();
-
-    //const winningColorTokens = document.querySelectorAll('.winning.token');
 
     let selectedColor;
 
@@ -17,11 +13,10 @@ function main() {
 
     let playerSteps = loadPlayerSteps();
 
-    console.log(winnerComb);
-    console.log(actualRowNum);
-    console.log(playerSteps);
+    //let rowResults = loadResults();
 
-    // These variables and configurations determine the greenmarker
+    console.log(winnerComb);
+
     let side = document.querySelector('#side');
     let greenMarker = document.createElement('img');
     greenMarker.setAttribute('src', 'static/images/Actions-go-next-icon.png');
@@ -33,16 +28,6 @@ function main() {
     let greenMarkerPosition = 428;
     let greenMarkerPositionDifference = 37;
 
-
-
-        //this function compares the player guesses and winningComb
-        //it returns a result array, which contains 1 and/or 2, 1 meaning the guessed color is right but the position is not,
-        // and 2 meaning both the color and the position is correct
-
-
-
-
-    // These two functions are responsible for moving the greenmarker
     let moveGreenMarker = function() {
         if (actualRowNum <= 10) {
             greenMarkerPosition -= 1;
@@ -60,9 +45,6 @@ function main() {
     };
 
 
-    //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
-    //the player has to guess correctly
-
     board.addEventListener('click', function(event) {
         let target = event.target;
         actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
@@ -71,14 +53,11 @@ function main() {
                             'row': 0,
                             'token': 0};
 
-        //here we build the playerStep dictionary, which contains the necessary data about what the player
-        //picked as a color, and what token did he place that color
         if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
             target.classList.add(selectedColor);
             playerStep['selectedColor'] = selectedColor;
             playerStep['row'] = target.dataset['row'];
             playerStep['token'] = target.dataset['token'];
-            //here we save this player guess to playerSteps
             playerSteps.push(playerStep);
             localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
             playerSteps = parseSteps();
@@ -88,13 +67,20 @@ function main() {
 
         if (playerSteps.length % 4 === 0) {
             takeGreenMarkerToTheNextRow();
-            //result will be an array, containing 1 or 2, meaning the guessed color is right, but
-            //not on the right position (1), or both the color and position is correct (2)
             let result = winningCheck(actualRowNum, playerSteps, winnerComb);
+            //rowResults.push(result);
+            //localStorage.setItem('rowResults', JSON.stringify(rowResults));
 
-            //if the player has won...
-            if (result === true) {
-                for (i = 0; i < winningColorTokens.length; i++) {
+            let winCounter = 0;
+
+            for (let num of result) {
+                if (num === 2) {
+                    winCounter += 1;
+                }
+            }
+
+            if (winCounter === 4) {
+                for (let i = 0; i < winningColorTokens.length; i++) {
                     winningColorTokens[i].textContent = '';
                     winningColorTokens[i].classList.add(winnerComb[i]);
                 }
@@ -136,15 +122,19 @@ function main() {
         localStorage.clear();
         location.reload();
     });
-
-
-
-
 }
 
 function parseSteps() {
     let playerSteps = JSON.parse(localStorage.getItem('playerSteps'));
     return playerSteps;
+}
+
+function loadResults() {
+    let rowResults;
+    if(localStorage.getItem('rowResults')){
+        rowResults = JSON.parse(localStorage['rowResults']);
+    }
+    return rowResults;
 }
 
 function loadActualRowNum(){
@@ -181,7 +171,7 @@ function loadWinnerComb(){
 //this function generates random numbers between 0 and 7
 function generateWinnerCombIndex (){
     let winnerCombIndex = [];
-    for (i=0; i < 4; i++) {
+    for (let i=0; i < 4; i++) {
         winnerCombIndex.push(Math.floor(Math.random() * 8));
     }
     return winnerCombIndex;
@@ -204,7 +194,7 @@ function getWinnerComb() {
                                 "player-color-choice-1-3"];
     let winnerCombIndex = generateWinnerCombIndex();
     let winnerComb = [];
-    for (i of winnerCombIndex) {
+    for (let i of winnerCombIndex) {
         winnerComb.push(playerColorChoices[i]);
     }
     return winnerComb;
@@ -219,6 +209,7 @@ function winningCheck (actualRowNum, playerSteps, winnerComb) {
     let result = [];
     let restWin = [];
     let restPlayerGuesses = [];
+    let commonNum = [];
 
     for (let i=0; i<playerGuesses.length; i++) {
         if (winnerComb[i] === playerGuesses[i]) {
@@ -229,17 +220,17 @@ function winningCheck (actualRowNum, playerSteps, winnerComb) {
             restPlayerGuesses.push(playerGuesses[i]);
         }
     }
-    for (let i=0; i<restWin.length; i++){
-        if(restPlayerGuesses.includes(restWin[i])){
-            result.push(goodColor);
-            restWin.pop(restWin[i]);
-            restPlayerGuesses.pop(restWin[i]);
+
+    for (let i = 0; i<restWin.length; i++) {
+        if (restWin.includes(restPlayerGuesses[i])) {
+            commonNum.push(restPlayerGuesses[i]);
         }
     }
-    //This line checks whether the result contains four '2', meaning the player
-    //has guessed everything correctly. If so, he won, the result will be 'true'
-    if (result.length === 4 && result.includes(1) === false) {
-        return true
+
+    let length = commonNum.length;
+
+    for (let i=0; i<length; i++) {
+        result.push(goodColor)
     }
     return result
 }
@@ -257,7 +248,7 @@ function show_evaluation_result (result, actualRowNum) {
     let num_of_twos = 0;
     let num_of_ones = 0;
 
-    for (num of result) {
+    for (let num of result) {
         if (num === 2) {
             num_of_twos += 1;
         } else if (num === 1) {
@@ -266,7 +257,7 @@ function show_evaluation_result (result, actualRowNum) {
     }
     let rightSide = document.querySelector(`#row-${actualRowNum - 1}`);
 
-    for (i=0; i<num_of_twos; i++) {
+    for (let i=0; i<num_of_twos; i++) {
         let goodPosAndColor = document.createElement('img');
         goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon.png');
         goodPosAndColor.setAttribute('id', `good-pos-and-color-marker-${i}`);
