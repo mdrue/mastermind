@@ -26,6 +26,20 @@ let playerColorChoices = ["player-color-choice-0-0",
 
 let playerSteps = [];
 
+let actualRowNum = 1;
+
+// These variables and configurations determine the greenmarker
+let side = document.querySelector('#side');
+let greenMarker = document.createElement('img');
+greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+greenMarker.setAttribute('id', 'green-marker');
+side.appendChild(greenMarker);
+greenMarker.style.position = 'absolute';
+greenMarker.style.right = '0px';
+greenMarker.style.top = "430px";
+let greenMarkerPosition = 430;
+let greenMarkerPositionDifference = 37;
+
 //this function gets the necessary player guesses from playerSteps according to which row we need
 let getActualRowColors = function(actualRowNum, playerSteps) {
     let actualRowColors = [];
@@ -82,8 +96,6 @@ let generateWinnerCombIndex = function() {
     return winnerCombIndex;
 };
 
-let actualRowNum = 1;
-let row = document.querySelector(`#row-${actualRowNum}`);
 
 //this function translates the random numbers to 'colors', meaning strings that mark the colors
 //from the playerColorChoices array
@@ -96,26 +108,17 @@ let getWinnerComb = function(playerColorChoices) {
     return winnerComb;
 };
 
-let side = document.querySelector('#side');
-let greenMarker = document.createElement('img');
-greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
-greenMarker.setAttribute('id', 'green-marker');
-side.appendChild(greenMarker);
-greenMarker.style.position = 'absolute';
-greenMarker.style.right = '0px';
-greenMarker.style.top = "430px";
-let greenMarkerPosition = 430;
-
-function moveGreenMarker() {
+// These two functions are responsible for moving the greenmarker
+let moveGreenMarker = function() {
     greenMarkerPosition -= 1;
     greenMarker.style.top = greenMarkerPosition + 'px';
-}
+};
 
-function takeGreenMarkerToTheNextRow() {
+let takeGreenMarkerToTheNextRow = function() {
     for (let i=0; i < greenMarkerPositionDifference; i++) {
         setTimeout(moveGreenMarker, 100);
     }
-}
+};
 
 
 //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
@@ -124,22 +127,14 @@ let winnerComb = getWinnerComb(playerColorChoices);
 
 console.log(winnerComb);
 
-let greenMarkerPositionDifference = 37;
 board.addEventListener('click', function(event) {
     let target = event.target;
-
-    actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
-    let row = document.querySelector(`#row-${actualRowNum}`);
-    let greenMark = document.createElement('img');
-    greenMark.setAttribute('src', 'static/images/Green-Ball-icon.png');
-    row.appendChild(greenMark);
-
     let playerStep = {'selectedColor': 0,
                         'row': 0,
                         'token': 0};
 
     actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
-    row = document.querySelector(`#row-${actualRowNum}`);
+    //row = document.querySelector(`#row-${actualRowNum}`);
 
     //here we build the playerStep dictionary, which contains the necessary data about what the player
     //picked as a color, and what token did he place that color
@@ -154,7 +149,6 @@ board.addEventListener('click', function(event) {
 
     if (playerSteps.length % 4 == 0) {
         takeGreenMarkerToTheNextRow();
-        //greenMarkerPosition = greenMarkerPosition - greenMarkerPositionDifference;
     }
 
     const winningColorTokens = document.querySelectorAll('.winning.token');
