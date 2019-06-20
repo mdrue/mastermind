@@ -29,8 +29,8 @@ function main() {
     side.appendChild(greenMarker);
     greenMarker.style.position = 'absolute';
     greenMarker.style.right = '0px';
-    greenMarker.style.top = "430px";
-    let greenMarkerPosition = 430;
+    greenMarker.style.top = "428px";
+    let greenMarkerPosition = 428;
     let greenMarkerPositionDifference = 37;
 
 
