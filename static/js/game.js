@@ -177,6 +177,9 @@ window.addEventListener('load', function () {
                 let token = document.getElementById(tokenId);
                 token.setAttribute('class', playerStep['selectedColor']);
             }
+            break;
+        default:
+            break;
     }
 });
 
