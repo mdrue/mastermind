@@ -26,6 +26,20 @@ let playerColorChoices = ["player-color-choice-0-0",
 
 let playerSteps = [];
 
+let actualRowNum = 1;
+
+// These variables and configurations determine the greenmarker
+let side = document.querySelector('#side');
+let greenMarker = document.createElement('img');
+greenMarker.setAttribute('src', 'static/images/Green-Ball-icon.png');
+greenMarker.setAttribute('id', 'green-marker');
+side.appendChild(greenMarker);
+greenMarker.style.position = 'absolute';
+greenMarker.style.right = '0px';
+greenMarker.style.top = "430px";
+let greenMarkerPosition = 430;
+let greenMarkerPositionDifference = 37;
+
 //this function gets the necessary player guesses from playerSteps according to which row we need
 let getActualRowColors = function(actualRowNum, playerSteps) {
     let actualRowColors = [];
@@ -95,6 +109,19 @@ let getWinnerComb = function(playerColorChoices) {
     return winnerComb;
 };
 
+// These two functions are responsible for moving the greenmarker
+let moveGreenMarker = function() {
+    greenMarkerPosition -= 1;
+    greenMarker.style.top = greenMarkerPosition + 'px';
+};
+
+let takeGreenMarkerToTheNextRow = function() {
+    for (let i=0; i < greenMarkerPositionDifference; i++) {
+        setTimeout(moveGreenMarker, 100);
+    }
+};
+
+
 //we generate the winningComb which contains the array of the colors (e.g.:'player-color-choice-0-0')
 //the player has to guess correctly
 let winnerComb = getWinnerComb(playerColorChoices);
@@ -115,6 +142,9 @@ board.addEventListener('click', function(event) {
                         'row': 0,
                         'token': 0};
 
+    actualRowNum = Math.floor((playerSteps.length+1) / 4) + 1;
+    //row = document.querySelector(`#row-${actualRowNum}`);
+
     //here we build the playerStep dictionary, which contains the necessary data about what the player
     //picked as a color, and what token did he place that color
     if (target.getAttribute('class') === 'board token' && playerSteps.length / 4 >= target.dataset.row - 1) {
@@ -127,6 +157,11 @@ board.addEventListener('click', function(event) {
         localStorage.setItem('playerSteps', JSON.stringify(playerSteps));
         playerSteps = parseSteps();
     }
+
+    if (playerSteps.length % 4 == 0) {
+        takeGreenMarkerToTheNextRow();
+    }
+
     const winningColorTokens = document.querySelectorAll('.winning.token');
 
     if (playerSteps.length % 4 === 0) {
