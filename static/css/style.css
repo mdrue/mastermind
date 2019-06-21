@@ -4,9 +4,12 @@ body {
     color: white;
 }
 
+
 .token {
     width: 30px;
     height: 30px;
+    margin-right: 2px;
+    margin-left: 2px;
     border: 1px solid white;
     display: inline-block;
     border-radius: 10px;
@@ -98,8 +101,8 @@ body {
 #guessed-colors {
     margin-bottom: 25px;
     padding-bottom: 25px;
-    border-bottom: 1px solid black;
-    width: 200px;
+    border-bottom: 2px solid white;
+    width: 250px;
 }
 
 #side {
@@ -111,19 +114,40 @@ body {
 }
 
 #container {
-    display: inline-block;
-    float: left;
+    /*display: inline-block;
+    float: left;*/
+
+    text-align: left;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: 50px;
+    width: 250px;
+    display: block;
+}
+
+#selectable-colors {
+    text-align: left;
+    margin-top: 40px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 250px;
+    display: block;
 }
 
 .player {
+    margin: 2px;
     transition: 1s;
     -webkit-transition: 1s;
 }
 
 .player:hover {
-    width: 40px;
-    height: 40px;
+    border-radius: 50%;
+    margin: 0;
+    border: 1px solid crimson;
+    width: 35px;
+    height: 35px;
     box-shadow: 0 0 10px black;
+    transition: all 0.5s ease
 }
 
 #big-container {
@@ -168,4 +192,45 @@ body {
 @keyframes disappearing {
     0% {opacity: 100%;}
     100% {opacity: 0;}
+}
+
+#reset {
+    font-size: 22px;
+    border-radius: 20%;
+    margin-top: 20px;
+    margin-left: 110px;
+    margin-right: auto;
+    display: block;
+    width: 80px;
+    height: 30px;
+    background-color: dodgerblue;
+    text-align: center;
+    color: darkslategray;
+}
+
+#reset:hover {
+    border-radius: 30%;
+    background-color: lightskyblue;
+    transition: all 0.5s ease;
+    color: crimson;
+}
+
+.button {
+    background-color: #15666a;
+    border-radius: 10%;
+}
+
+#home-page-button:hover {
+    color: #bdc6d9;
+    transition: all 0.5s ease
+}
+
+#start-button {
+    margin-top: 60px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 10%;
+    display: block;
+    font-size: 22px;
+    padding: 15px 32px;
 }
