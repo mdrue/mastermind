@@ -1,12 +1,13 @@
 body {
-    background: url("../images/background.jpg") no-repeat center;
+    background: url("../images/background.jpg") no-repeat center fixed;
     background-size: 100%;
+    color: white;
 }
 
 .token {
     width: 30px;
     height: 30px;
-    border: 1px solid black;
+    border: 1px solid white;
     display: inline-block;
     border-radius: 10px;
     font-size: 20px;

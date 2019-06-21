@@ -259,13 +259,13 @@ function show_evaluation_result (result, actualRowNum) {
 
     for (let i=0; i<num_of_twos; i++) {
         let goodPosAndColor = document.createElement('img');
-        goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon.png');
+        goodPosAndColor.setAttribute('src','static/images/Green-Ball-icon1.png');
         goodPosAndColor.setAttribute('id', `good-pos-and-color-marker-${i}`);
         rightSide.appendChild(goodPosAndColor);
     }
     for (i=0; i<num_of_ones; i++) {
         let goodColor = document.createElement('img');
-        goodColor.setAttribute('src','static/images/Yellow-Ball-icon.png');
+        goodColor.setAttribute('src','static/images/Yellow-Ball-icon1.png');
         goodColor.setAttribute('id', `good-color-marker-${i}`);
         rightSide.appendChild(goodColor);
     }
