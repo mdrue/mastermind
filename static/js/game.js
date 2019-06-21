@@ -274,8 +274,16 @@ function show_evaluation_result (result, actualRowNum) {
 
 
 function displayMessage() {
+    let message = document.createElement('div');
+    message.setAttribute('id', 'message');
+    message.innerHTML = 'CONGRATULATION! :)';
+    document.body.appendChild(message);
+    setTimeout(removeMessage, 8000);
+}
+
+function removeMessage() {
     let message = document.querySelector('#message');
-    message.style.visibility = 'visible';
+    message.remove();
 }
 
 
